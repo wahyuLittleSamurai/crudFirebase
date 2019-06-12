@@ -1,0 +1,128 @@
+<html>
+<head>
+ <title>Firebase Realtime Database Web</title>
+ <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
+ <script>
+   // Initialize Firebase
+   var config = {
+   apiKey: "AIzaSyCXOnVpq39RP_cDy9JlUn85PwUtEGvViVI",
+		authDomain: "mmcproject-8e516.firebaseapp.com",
+		databaseURL: "https://mmcproject-8e516.firebaseio.com",
+		projectId: "mmcproject-8e516",
+		storageBucket: "mmcproject-8e516.appspot.com",
+		messagingSenderId: "113323670917",
+		appId: "1:113323670917:web:b9bee4d5f3487d09"
+   };
+
+   firebase.initializeApp(config);
+ </script>
+</head>
+<body>
+ <table>
+  <tr>
+   <td>long: </td>
+   <td><input type="text" name="longitude" id="longitude" /></td>
+  </tr>
+  <tr>
+   <td>lat: </td>
+   <td><input type="text" name="latitude" id="latitude" /></td>
+  </tr> 
+  <tr>
+   <td>altitude: </td>
+   <td><input type="text" name="altitude" id="altitude" /></td>
+  </tr>
+  <tr>
+   <td colspan="2">
+    <input type="button" value="Save" onclick="save_user();" />
+    <input type="button" value="Update" onclick="update_user();" />
+    <input type="button" value="Delete" onclick="delete_user();" />
+   </td>
+  </tr>
+ </table>
+ 
+ <h3>Users List</h3>
+ 
+ <table id="tbl_users_list" border="1">
+  <tr>
+   <td>#ID</td>
+   <td>NAME</td>
+  </tr>
+ </table>
+ <script>
+ 
+  var tblUsers = document.getElementById('tbl_users_list');
+  var databaseRef = firebase.database().ref();
+  var rowIndex = 1;
+  
+  databaseRef.once('value', function(snapshot) {
+   snapshot.forEach(function(childSnapshot) 
+   {
+	   var childKey = childSnapshot.key;
+	   var childData = childSnapshot.val();
+	   
+	   var row = tblUsers.insertRow(rowIndex);
+	   var cellId = row.insertCell(0);
+	   var cellName = row.insertCell(1);
+	   cellId.appendChild(document.createTextNode(childKey));
+	   cellName.appendChild(document.createTextNode(childData.user_name));
+	   
+	   rowIndex = rowIndex + 1;
+    });
+  });
+   /*
+  function save_user(){
+   var longitude = document.getElementById('longitude').value;
+   var latitude = document.getElementById('latitude').value;
+   var altitude = document.getElementById('altitude').value;
+  
+   var uid = firebase.database().ref().push().key;
+   
+   var data = {
+    longitude: longitude,
+    latitude: latitude,
+	tinggi: altitude
+   }
+   
+   var updates = {};
+   updates["GlWChybjtkg6NexoUbcvm2zE9mH2"] = data;
+   firebase.database().ref().update(updates);
+   
+   alert('The user is created successfully!');
+   reload_page();
+  }
+  
+  function update_user(){
+   var longitude = document.getElementById('longitude').value;
+   var latitude = document.getElementById('latitude').value;
+   var altitude = document.getElementById('altitude').value;
+
+   var data = {
+    longitude: longitude,
+    latitude: latitude,
+	tinggi: altitude
+   }
+   
+   var updates = {};
+   updates["GlWChybjtkg6NexoUbcvm2zE9mH2"] = data;
+   firebase.database().ref().update(updates);
+   
+   alert('The user is updated successfully!');
+   
+   reload_page();
+  }
+  
+  function delete_user(){
+   var longitude = document.getElementById('longitude').value;
+  
+   firebase.database().ref().child("GlWChybjtkg6NexoUbcvm2zE9mH2").remove();
+   alert('The user is deleted successfully!');
+   reload_page();
+  }
+  
+  function reload_page(){
+   window.location.reload();
+  }
+  */
+ </script>
+</body>
+</html>
